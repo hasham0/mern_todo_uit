@@ -49,9 +49,11 @@ export default function UserInput({}: Props) {
       body: JSON.stringify(data),
     });
 
-    const responceData: responseTodo = await responce.json();
-    console.log(responceData.data);
-    setList(responceData.data);
+    const responceData = await responce.json();
+    const { data: newData } = responceData;
+    const copyList: todoTs[] = [...list];
+    copyList.push(newData);
+    setList(copyList);
     initialState();
     toast.success(responceData.message);
   };
@@ -65,7 +67,7 @@ export default function UserInput({}: Props) {
       },
     });
 
-    const responceData: responseTodo = await responce.json();
+    const responceData = await responce.json();
     setList(responceData.data);
     toast.success(responceData.message);
   };
@@ -109,7 +111,7 @@ export default function UserInput({}: Props) {
       body: JSON.stringify(userInputs),
     });
 
-    const responceData = await responce.json();
+    const responceData: responseTodo = await responce.json();
     setList(responceData.data);
     initialState();
     setUpdateBtn(false);

@@ -34,11 +34,9 @@ app.get("/allTodos", async (request, response) => {
 app.post("/newTodo", async (request, response) => {
   const todoData = request.body;
   const newTodo = await Todos.create(todoData);
-  const allTodos = await Todos.find();
-
   response.json({
     message: "todo added successfully",
-    data: allTodos,
+    data: newTodo,
   });
 });
 
@@ -47,8 +45,7 @@ app.put("/updateTodo/:id", async (request, response) => {
   const { id } = request.params;
   const todoData = request.body;
   const updateTodo = await Todos.findByIdAndUpdate(id, todoData);
-  const allTodos = await Todos.find();
-
+  const allTodos = await Todos.find({});
   response.json({
     message: "todo update successfully",
     data: allTodos,
@@ -60,7 +57,6 @@ app.delete("/deleteTodo/:id", async (request, response) => {
   const { id } = request.params;
   const deleteTodo = await Todos.findByIdAndDelete(id);
   const allTodos = await Todos.find();
-
   response.json({
     message: "todo delete successfully",
     data: allTodos,
@@ -70,7 +66,6 @@ app.delete("/deleteTodo/:id", async (request, response) => {
 // clear api
 app.delete("/clear", async (request, response) => {
   const deleteAllTodos = await Todos.deleteMany();
-
   response.json({
     message: "all clear",
     data: [],
